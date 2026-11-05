@@ -5,6 +5,7 @@ import { useAppStore, useCurrentStudent } from "@/store/AppStore";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Logo } from "@/components/shared/Logo";
+import { ConfettiBackdrop } from "@/components/shared/Decor";
 import { SubjectIcon } from "@/components/shared/SubjectIcon";
 import { SUBJECTS } from "@/data/subjects";
 import { LOAD_LEVELS, LOAD_TASK_COUNTS } from "@/data/load";
@@ -54,11 +55,8 @@ export function OnboardingPage() {
 
   return (
     <div className="relative isolate min-h-dvh overflow-hidden bg-paper">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-[-10rem] -z-10 h-[28rem] w-[42rem] max-w-[120vw] -translate-x-1/2 rounded-full bg-gradient-to-br from-butter/35 via-blush/30 to-mint/35 blur-[110px]"
-      />
-      <div className="container-page flex min-h-dvh max-w-2xl flex-col py-6">
+      <ConfettiBackdrop />
+      <div className="mx-auto flex min-h-dvh w-full max-w-2xl flex-col px-4 sm:px-6 py-6">
         <div className="flex items-center justify-between">
           <Logo />
           <span className="text-xs font-bold text-muted">
@@ -87,9 +85,9 @@ export function OnboardingPage() {
                     aria-pressed={grade === g}
                     onClick={() => setGrade(g)}
                     className={cn(
-                      "aspect-square rounded-xl border-2 text-lg font-bold transition-colors sm:rounded-2xl sm:text-xl",
+                      "aspect-square rounded-full border-2 font-display text-lg font-extrabold transition-[transform,background-color] hover:-translate-y-0.5 sm:text-2xl",
                       grade === g
-                        ? "border-ink bg-ink text-white"
+                        ? "border-berry bg-berry text-white"
                         : "border-ink/10 bg-white text-ink hover:border-ink/25",
                     )}
                   >
@@ -121,9 +119,9 @@ export function OnboardingPage() {
                       aria-pressed={active}
                       onClick={() => toggleSubject(s.id)}
                       className={cn(
-                        "flex w-full items-center gap-3 rounded-2xl border-2 p-3 text-left transition-colors",
+                        "flex w-full items-center gap-3 rounded-[22px] border-2 p-3.5 text-left transition-colors",
                         active
-                          ? "border-ink bg-ink/[0.04]"
+                          ? "border-berry bg-berry-soft"
                           : "border-ink/10 bg-white hover:border-ink/25",
                       )}
                     >
@@ -139,7 +137,7 @@ export function OnboardingPage() {
                       <span
                         className={cn(
                           "grid h-6 w-6 place-items-center rounded-full border-2",
-                          active ? "border-ink bg-ink text-white" : "border-ink/20",
+                          active ? "border-berry bg-berry text-white" : "border-ink/20",
                         )}
                         aria-hidden="true"
                       >
@@ -176,9 +174,9 @@ export function OnboardingPage() {
                       aria-pressed={active}
                       onClick={() => setLoadLevel(level)}
                       className={cn(
-                        "flex w-full items-center justify-between gap-3 rounded-2xl border-2 p-4 text-left transition-colors",
+                        "flex w-full items-center justify-between gap-3 rounded-[22px] border-2 p-4 text-left transition-colors",
                         active
-                          ? "border-ink bg-ink/[0.04]"
+                          ? "border-berry bg-berry-soft"
                           : "border-ink/10 bg-white hover:border-ink/25",
                       )}
                     >
@@ -193,7 +191,7 @@ export function OnboardingPage() {
                       <span
                         className={cn(
                           "grid h-6 w-6 shrink-0 place-items-center rounded-full border-2",
-                          active ? "border-ink bg-ink text-white" : "border-ink/20",
+                          active ? "border-berry bg-berry text-white" : "border-ink/20",
                         )}
                         aria-hidden="true"
                       >

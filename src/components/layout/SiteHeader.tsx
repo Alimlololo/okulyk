@@ -21,8 +21,8 @@ export function SiteHeader() {
   ];
 
   return (
-    <header className="sticky top-0 z-40 border-b border-ink/[0.06] bg-paper/80 backdrop-blur">
-      <div className="container-page flex h-16 items-center justify-between gap-4">
+    <header className="sticky top-0 z-40 bg-paper/85 backdrop-blur-md">
+      <div className="container-page flex h-[72px] items-center justify-between gap-4">
         <Link to="/" className="shrink-0 rounded-lg" aria-label="Munara — home">
           <Logo />
         </Link>
@@ -35,7 +35,7 @@ export function SiteHeader() {
             <a
               key={item.href}
               href={item.href}
-              className="whitespace-nowrap rounded-pill px-3 py-2 text-sm text-muted transition-colors hover:text-ink"
+              className="whitespace-nowrap rounded-pill px-3 py-2 text-[15px] font-semibold text-ink/75 transition-colors hover:bg-snow hover:text-ink"
             >
               {item.label}
             </a>
@@ -46,11 +46,11 @@ export function SiteHeader() {
           <LanguageSwitcher />
           <Link
             to="/auth?mode=login"
-            className="text-sm font-medium text-muted transition-colors hover:text-ink"
+            className="text-[15px] font-bold text-ink transition-colors hover:text-berry"
           >
             {t("common.login")}
           </Link>
-          <Button size="sm" className="group" onClick={() => navigate("/auth")}>
+          <Button size="sm" variant="outline" className="group" onClick={() => navigate("/auth")}>
             {t("common.startFree")}
             <ArrowUpRight
               className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
@@ -72,7 +72,7 @@ export function SiteHeader() {
 
       <div
         className={cn(
-          "border-t border-ink/[0.06] bg-paper lg:hidden",
+          "border-t border-ink/[0.06] bg-paper shadow-float lg:hidden",
           open ? "block" : "hidden",
         )}
       >
@@ -82,7 +82,7 @@ export function SiteHeader() {
               key={item.href}
               href={item.href}
               onClick={() => setOpen(false)}
-              className="rounded-pill px-3 py-3 text-sm text-muted hover:bg-ink/[0.04] hover:text-ink"
+              className="rounded-pill px-3 py-3 text-base font-semibold text-ink/80 hover:bg-snow hover:text-ink"
             >
               {item.label}
             </a>

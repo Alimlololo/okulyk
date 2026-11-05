@@ -70,7 +70,8 @@ export function ParentOverview() {
       {/* ---- Metric cards ---- */}
       <div className="grid gap-4 sm:grid-cols-3">
         <MetricCard
-          tone="sky"
+          tone="sun"
+          calm
           label={t("parentOverview.metricStreak")}
           icon={<Flame className="h-4 w-4" aria-hidden="true" />}
           value={`${child.streak.current} ${pluralDays(child.streak.current, locale)}`}
@@ -79,7 +80,8 @@ export function ParentOverview() {
           chartLabel={t("x.dash.perDay")}
         />
         <MetricCard
-          tone="blush"
+          tone="berry"
+          calm
           label={t("parentOverview.metricTasksWeek")}
           icon={<ListChecks className="h-4 w-4" aria-hidden="true" />}
           value={String(tasksWeek.total)}
@@ -89,7 +91,8 @@ export function ParentOverview() {
           chartLabel={t("x.dash.perDay")}
         />
         <MetricCard
-          tone="mint"
+          tone="leaf"
+          calm
           label={t("parentOverview.metricAvgScore")}
           icon={<Target className="h-4 w-4" aria-hidden="true" />}
           value={`${avgScore}%`}

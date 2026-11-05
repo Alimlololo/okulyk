@@ -37,14 +37,14 @@ export function Switch({
         disabled={disabled}
         onClick={() => onCheckedChange(!checked)}
         className={cn(
-          "relative mt-0.5 inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/60 focus-visible:ring-offset-2 disabled:opacity-50",
-          checked ? "bg-ink" : "bg-ink/20",
+          "relative mt-0.5 inline-flex h-7 w-12 shrink-0 items-center rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/60 focus-visible:ring-offset-2 disabled:opacity-50",
+          checked ? "bg-berry" : "bg-ink/20",
         )}
       >
         <span
           className={cn(
-            "inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform",
-            checked ? "translate-x-5" : "translate-x-0.5",
+            "inline-block h-6 w-6 transform rounded-full bg-white shadow-knob transition-transform",
+            checked ? "translate-x-[22px]" : "translate-x-0.5",
           )}
         />
       </button>

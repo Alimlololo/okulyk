@@ -246,13 +246,13 @@ function ChoiceRow({
       disabled={disabled}
       onClick={onClick}
       className={cn(
-        "flex w-full items-center gap-3 rounded-xl border-2 px-4 py-3 text-left text-sm font-semibold transition-colors",
+        "flex w-full items-center gap-3 rounded-[18px] border-2 px-4 py-3.5 text-left text-sm font-semibold transition-colors",
         state === "correct" && "border-mint bg-mint-soft text-mint-ink",
         state === "wrong" && "border-rose-300 bg-rose-50 text-rose-900",
         state === "missed" && "border-dashed border-mint bg-white text-mint-ink",
         state === "idle" &&
           (selected
-            ? "border-ink bg-ink/[0.04] text-ink"
+            ? "border-berry bg-berry-soft text-ink"
             : "border-ink/10 bg-white hover:border-ink/20"),
       )}
     >

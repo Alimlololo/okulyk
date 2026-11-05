@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Bell, LogOut } from "lucide-react";
 import { Avatar } from "@/components/shared/Avatar";
+import { Sparkle } from "@/components/shared/Decor";
 import { LanguageSwitcher } from "@/components/shared/LanguageSwitcher";
 import { useLocale } from "@/i18n";
 
@@ -38,7 +39,10 @@ export function DashboardTopBar({
   return (
     <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
       <div className="min-w-0">
-        <h1 className="text-2xl font-bold sm:text-[1.75rem]">{title}</h1>
+        <h1 className="flex items-center gap-2 text-[1.7rem] sm:text-[2.1rem]">
+          <span>{title}</span>
+          <Sparkle color="sun" size={22} />
+        </h1>
         <p className="mt-0.5 text-sm text-muted">{subtitle}</p>
       </div>
 

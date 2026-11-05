@@ -1,22 +1,19 @@
 import { cn } from "@/lib/utils";
 
-/** Minimal editorial mark — a small ink "spark" + the wordmark. */
+/** Munara mark: a blue speech-bubble blob with a white four-point sparkle, plus the wordmark. */
 export function Logo({ className, withText = true }: { className?: string; withText?: boolean }) {
   return (
     <span className={cn("inline-flex items-center gap-2", className)}>
-      <svg
-        viewBox="0 0 24 24"
-        className="h-6 w-6 text-ink"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        aria-hidden="true"
-      >
-        <path d="M12 2v20M2 12h20M4.9 4.9l14.2 14.2M19.1 4.9L4.9 19.1" />
+      <svg viewBox="0 0 36 32" className="h-8 w-9" aria-hidden="true">
+        <path
+          d="M18 2c8.8 0 16 5.6 16 12.6S26.8 27.2 18 27.2c-1.6 0-3.1-.2-4.6-.5L6.6 30.4c-.9.5-1.9-.4-1.5-1.3l1.6-4.1C3.8 22.7 2 18.9 2 14.6 2 7.6 9.2 2 18 2Z"
+          fill="#3D5AFE"
+        />
+        <path d="M18 7.5c.6 3.7 1.8 4.9 5.5 5.5-3.7.6-4.9 1.8-5.5 5.5-.6-3.7-1.8-4.9-5.5-5.5 3.7-.6 4.9-1.8 5.5-5.5Z" fill="#fff" />
+        <circle cx="27" cy="7.5" r="2.4" fill="#FFC530" />
       </svg>
       {withText && (
-        <span className="text-lg font-semibold tracking-tight text-ink">Munara</span>
+        <span className="font-display text-[1.35rem] font-extrabold tracking-[-0.04em] text-ink">munara</span>
       )}
     </span>
   );

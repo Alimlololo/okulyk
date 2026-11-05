@@ -45,8 +45,8 @@ export function DashboardShell({ navItems, children }: DashboardShellProps) {
                 end={item.end}
                 className={({ isActive }) =>
                   cn(
-                    "flex flex-col items-center gap-1 rounded-2xl px-1 py-2 text-center text-[11px] font-medium leading-tight transition-colors",
-                    isActive ? "bg-ink text-white" : "text-ink/60 hover:bg-ink/[0.06] hover:text-ink",
+                    "flex flex-col items-center gap-1 rounded-[20px] px-1 py-2.5 text-center text-[11px] font-bold leading-tight transition-colors",
+                    isActive ? "bg-berry text-white shadow-lift" : "text-ink/65 hover:bg-white hover:text-ink",
                   )
                 }
               >
@@ -74,7 +74,7 @@ export function DashboardShell({ navItems, children }: DashboardShellProps) {
             end={item.end}
             className={({ isActive }) =>
               cn(
-                "flex min-w-0 flex-1 flex-col items-center gap-0.5 rounded-xl px-1 py-1.5 text-[10px] font-medium",
+                "flex min-w-0 flex-1 flex-col items-center gap-0.5 rounded-xl px-1 py-1.5 text-[10px] font-bold",
                 isActive ? "text-ink" : "text-muted",
               )
             }
@@ -84,7 +84,7 @@ export function DashboardShell({ navItems, children }: DashboardShellProps) {
                 <span
                   className={cn(
                     "grid h-8 w-12 place-items-center rounded-full transition-colors",
-                    isActive && "bg-ink text-white",
+                    isActive && "bg-berry text-white",
                   )}
                 >
                   <item.icon className="h-5 w-5" aria-hidden="true" />

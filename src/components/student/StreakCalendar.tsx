@@ -54,7 +54,7 @@ export function StreakCalendar({ history, days = 14 }: StreakCalendarProps) {
               title={`${formatDayMonth(k, locale)} — ${LABEL[state]}`}
               aria-label={`${formatDayMonth(k, locale)}: ${LABEL[state]}`}
               className={cn(
-                "grid aspect-square place-items-center rounded-lg text-[11px] font-semibold",
+                "grid aspect-square place-items-center rounded-full text-[11px] font-bold",
                 STATE_CLASS[state],
               )}
             >

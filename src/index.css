@@ -12,36 +12,43 @@
   }
 
   body {
-    @apply bg-paper text-ink font-sans antialiased;
+    @apply bg-paper font-sans text-ink antialiased;
   }
 
   /* Visible, consistent keyboard focus everywhere */
   :focus-visible {
-    @apply outline-none ring-2 ring-ink/60 ring-offset-2 ring-offset-white rounded-[8px];
+    @apply rounded-[10px] outline-none ring-[3px] ring-berry/60 ring-offset-2 ring-offset-white;
   }
 
-  /* Bold geometric headings — weighty, confident, tight tracking */
+  /* Chunky, friendly headings */
   h1,
   h2,
   h3,
   h4 {
     @apply font-display font-bold text-ink;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.025em;
     text-wrap: balance;
+  }
+  h1,
+  h2 {
+    @apply font-extrabold;
+    letter-spacing: -0.035em;
   }
 }
 
 @layer components {
-  /* Parent area opts into a calmer, grotesque typeface */
-  .theme-parent {
-    @apply font-parent;
-  }
+  /* Parent area: same system, calmer headings */
   .theme-parent h1,
   .theme-parent h2,
   .theme-parent h3,
   .theme-parent h4 {
-    @apply font-sans font-semibold;
-    letter-spacing: normal;
+    @apply font-semibold;
+    letter-spacing: -0.01em;
+  }
+
+  /* Hover "lift" for clickable cards */
+  .lift {
+    @apply transition-[transform,box-shadow] duration-200 ease-out hover:-translate-y-1 hover:shadow-float active:translate-y-0;
   }
 }
 

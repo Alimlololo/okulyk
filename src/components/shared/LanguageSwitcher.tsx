@@ -10,7 +10,7 @@ export function LanguageSwitcher({ className }: { className?: string }) {
       role="radiogroup"
       aria-label="Язык интерфейса / Тіл / Language"
       className={cn(
-        "inline-flex items-center gap-0.5 rounded-pill border border-ink/10 bg-white p-0.5",
+        "inline-flex items-center gap-0.5 rounded-pill bg-snow p-1 ring-1 ring-ink/[0.08]",
         className,
       )}
     >
@@ -22,8 +22,8 @@ export function LanguageSwitcher({ className }: { className?: string }) {
           aria-checked={locale === l}
           onClick={() => setLocale(l)}
           className={cn(
-            "rounded-pill px-2 py-1 text-xs font-semibold transition-colors",
-            locale === l ? "bg-ink text-white" : "text-ink/50 hover:text-ink",
+            "rounded-pill px-2.5 py-1 text-xs font-bold transition-colors",
+            locale === l ? "bg-ink text-white" : "text-ink/60 hover:text-ink",
           )}
         >
           {LOCALE_LABEL[l]}

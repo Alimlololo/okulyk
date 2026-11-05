@@ -438,6 +438,10 @@ export const en: Dictionary = {
       night: "Good night, {name}!",
     },
     landing: {
+      heroLine1: "Get ready",
+      heroLine2: "for NIS",
+      heroLine3: "the fun way",
+      seeHow: "See how it works",
       streakCount: "15 days",
       streakText:
         "A streak is a run of consecutive days on which the student completes the daily goal. Miss one day and the streak drops to zero. This simple rule turns exam prep into a daily habit instead of last-minute cramming.",

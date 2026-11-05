@@ -1,30 +1,27 @@
 import { Link } from "react-router-dom";
 import {
-  ArrowDown,
-  ArrowUpRight,
+  ArrowRight,
   BarChart3,
+  BookOpen,
   BookOpenCheck,
   CalendarDays,
-  CheckCircle2,
   Flame,
-  Laptop,
-  Play,
-  PlayCircle,
   Plus,
   ShieldCheck,
-  Smartphone,
   Snowflake,
   Sparkles,
   Star,
   Target,
   TrendingUp,
   Video,
+  PlayCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { SubjectIcon } from "@/components/shared/SubjectIcon";
 import { Avatar } from "@/components/shared/Avatar";
+import { Blob, DashedRoute, Dot, Knob, PillToggle, Sparkle, type DecorColor } from "@/components/shared/Decor";
 import { cn } from "@/lib/utils";
 import { SUBJECTS, SUBJECT_GROUPS } from "@/data/subjects";
 import { REVIEWS } from "@/data/reviews";
@@ -34,12 +31,14 @@ import type { Subject } from "@/types";
 
 type IconType = React.ComponentType<{ className?: string }>;
 
-const STEPS = [
-  { key: "grade", icon: Target },
-  { key: "plan", icon: CalendarDays },
-  { key: "lesson", icon: PlayCircle },
-  { key: "streak", icon: Flame },
-] as const;
+const STEPS: { key: string; icon: IconType; color: DecorColor }[] = [
+  { key: "grade", icon: Target, color: "leaf" },
+  { key: "plan", icon: CalendarDays, color: "sun" },
+  { key: "lesson", icon: PlayCircle, color: "sky" },
+  { key: "streak", icon: Flame, color: "bubble" },
+];
+
+const FAQ_COLORS = ["bg-berry text-white", "bg-leaf", "bg-sun", "bg-grape text-white", "bg-bubble", "bg-sky"];
 
 export function LandingPage() {
   const { t, list } = useLocale();
@@ -47,186 +46,147 @@ export function LandingPage() {
   const faq = list<{ q: string; a: string }>("x.landing.faq");
   const reviewTexts = list<{ quote: string; role: string }>("x.landing.reviews");
 
-  const WIDGETS = [
-    { icon: Flame, tone: "butter", metric: t("hero.widgetStreakCount"), caption: t("hero.streakDays") },
-    { icon: Star, tone: "blush", metric: "4.9", caption: t("hero.widgetRating") },
-    { icon: TrendingUp, tone: "mint", metric: "+23%", caption: t("hero.widgetProgress") },
-    { icon: Video, tone: "plain", metric: "500+", caption: t("hero.widgetVideos") },
-    { icon: CheckCircle2, tone: "mint", metric: "1 200", caption: t("hero.widgetTasks") },
-  ] as const;
+  const WIDGETS: { icon: IconType; tone: string; metric: string; caption: string; rotate: string }[] = [
+    { icon: Flame, tone: "bg-butter-soft text-butter-ink", metric: t("hero.widgetStreakCount"), caption: t("hero.streakDays"), rotate: "sm:-rotate-3" },
+    { icon: Star, tone: "bg-bubble-soft text-bubble-ink", metric: "4.9", caption: t("hero.widgetRating"), rotate: "sm:rotate-2" },
+    { icon: TrendingUp, tone: "bg-leaf-soft text-leaf-ink", metric: "+23%", caption: t("hero.widgetProgress"), rotate: "sm:-rotate-2" },
+    { icon: Video, tone: "bg-berry-soft text-berry-ink", metric: "500+", caption: t("hero.widgetVideos"), rotate: "sm:rotate-3" },
+  ];
 
   return (
     <>
       {/* ---------------- Hero ---------------- */}
       <section className="relative isolate overflow-hidden bg-paper">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute left-1/2 top-[-6rem] -z-10 h-[34rem] w-[52rem] max-w-[120vw] -translate-x-1/2 rounded-full bg-gradient-to-br from-butter/45 via-blush/40 to-mint/45 blur-[120px]"
-        />
+        <Sparkle color="leaf" size={44} className="absolute left-[9%] top-[58%] hidden sm:block" />
+        <Sparkle color="sun" size={52} className="absolute right-[10%] top-[60%] hidden sm:block" style={{ animationDelay: "1.2s" }} />
+        <Sparkle color="berry" size={30} className="absolute left-[18%] top-[74%]" style={{ animationDelay: "0.6s" }} />
+        <Sparkle color="sky" size={34} className="absolute right-[22%] top-[76%]" style={{ animationDelay: "2s" }} />
+        <Sparkle color="bubble" size={22} className="absolute right-[6%] top-[12%]" style={{ animationDelay: "1.6s" }} />
 
-        <div className="container-page relative py-16 sm:py-24">
-          <div className="grid gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-10">
-            {/* Left — copy, left-aligned on desktop */}
-            <div className="animate-fade-up text-center lg:text-left">
-              <Badge tone="butter" className="mb-5 lg:mx-0">
-                <Flame className="h-3.5 w-3.5" aria-hidden="true" />
-                {t("hero.badge")}
-              </Badge>
-              <h1 className="mx-auto max-w-[16ch] text-[2.25rem] leading-[1.05] sm:text-5xl lg:mx-0 lg:max-w-none lg:text-[3.25rem] lg:leading-[1.02]">
-                {t("hero.title")}
-              </h1>
-              <p className="mx-auto mt-5 max-w-xl text-base text-muted sm:text-lg lg:mx-0">
-                {t("hero.subtitle")}
-              </p>
-              <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row lg:justify-start">
-                <Button asChild size="lg" className="group w-full sm:w-auto">
-                  <Link to="/auth?role=student">
-                    {t("hero.ctaStart")}
-                    <ArrowUpRight
-                      className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                      aria-hidden="true"
-                    />
-                  </Link>
-                </Button>
-                <Button asChild size="lg" variant="outline" className="w-full sm:w-auto">
-                  <a href="#how">{t("hero.ctaHow")}</a>
-                </Button>
-              </div>
-              <div className="mt-6 flex flex-wrap items-center justify-center gap-2 lg:justify-start">
-                <span className="inline-flex items-center gap-1.5 rounded-pill border border-ink/10 bg-white px-3 py-1.5 text-xs font-medium text-ink/60">
-                  <Laptop className="h-3.5 w-3.5" aria-hidden="true" />
-                  {t("hero.onDesktop")}
-                </span>
-                <span className="inline-flex items-center gap-1.5 rounded-pill border border-ink/10 bg-white px-3 py-1.5 text-xs font-medium text-ink/60">
-                  <Smartphone className="h-3.5 w-3.5" aria-hidden="true" />
-                  {t("hero.onPhone")}
-                </span>
-              </div>
-            </div>
+        <div className="container-page relative pb-16 pt-10 sm:pb-24 sm:pt-16">
+          <Badge tone="butter" className="mx-auto mb-8 flex w-max animate-fade-up">
+            <Flame className="h-3.5 w-3.5" aria-hidden="true" />
+            {t("hero.badge")}
+          </Badge>
 
-            {/* Right — bold accent card with phone mockup */}
-            <div className="relative mx-auto w-full max-w-sm animate-fade-up [animation-delay:120ms] sm:max-w-md">
-              <div className="relative overflow-hidden rounded-[2rem] bg-sky px-6 pb-8 pt-6 shadow-pop sm:px-8 sm:pt-7">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold uppercase tracking-[0.14em] text-ink/70">
-                    {t("hero.myProgress")}
-                  </span>
-                  <span className="grid h-8 w-8 place-items-center rounded-full bg-black/10 text-ink">
-                    <Flame className="h-4 w-4" aria-hidden="true" />
-                  </span>
-                </div>
-                <p className="mt-2 font-display text-5xl font-bold leading-none text-ink sm:text-6xl">
-                  {t("hero.streakCountLabel")}
-                </p>
-                <p className="mt-1.5 text-sm font-medium text-ink/70">
-                  {t("hero.streakDays")}
-                </p>
-
-                <div className="mt-6 flex justify-center">
-                  <PhoneMockup />
-                </div>
-              </div>
-
-              {/* Floating widgets, straddling the accent card's corners */}
-              <WidgetCard
-                widget={WIDGETS[1]}
-                className="absolute -left-10 top-1/2 hidden w-max -rotate-6 animate-float-slow sm:flex"
+          <h1
+            className="relative mx-auto max-w-5xl text-[2.6rem] font-extrabold leading-[1.04] tracking-[-0.045em] sm:text-[4.6rem] lg:text-[6.2rem]"
+            aria-label={`${t("x.landing.heroLine1")} ${t("x.landing.heroLine2")} ${t("x.landing.heroLine3")}`}
+          >
+            {/* Line 1: word · green arrow circle · gradient toggle with emoji knob */}
+            <span aria-hidden="true" className="flex flex-wrap items-center justify-center gap-x-[0.18em] gap-y-2">
+              <span>{t("x.landing.heroLine1")}</span>
+              <Blob color="leaf" className="h-[0.9em] w-[0.9em] text-ink">
+                <ArrowRight className="h-[0.42em] w-[0.42em]" strokeWidth={3} />
+              </Blob>
+              <PillToggle
+                className="h-[0.9em] w-[1.9em]"
+                knob={
+                  <Knob className="h-[0.72em] w-[0.72em]">
+                    <span className="inline-block animate-wiggle text-[0.42em] leading-none">🔥</span>
+                  </Knob>
+                }
               />
-              <WidgetCard
-                widget={WIDGETS[2]}
-                className="absolute -bottom-6 -right-5 hidden w-max rotate-3 animate-float-slow [animation-delay:.6s] sm:flex"
-              />
-            </div>
+            </span>
+
+            {/* Line 2: yellow circle with glass pill · word · outline toggle */}
+            <span aria-hidden="true" className="mt-2 flex flex-wrap items-center justify-center gap-x-[0.18em] gap-y-2">
+              <span className="relative inline-flex h-[0.95em] w-[1.45em] items-center">
+                <Blob color="sun" className="absolute left-0 h-[0.95em] w-[0.95em]" />
+                <PillToggle
+                  variant="glass"
+                  className="absolute left-[0.45em] h-[0.48em] w-[1em]"
+                  knob={<span className="mr-[0.12em] block h-[0.07em] w-[0.34em] rounded-full bg-ink" />}
+                />
+              </span>
+              <span>{t("x.landing.heroLine2")}</span>
+              <span className="relative inline-flex h-[0.62em] w-[1.6em] items-center rounded-full border-[0.07em] border-ink bg-white">
+                <span className="absolute left-[0.22em] right-[0.22em] top-1/2 h-[0.06em] -translate-y-1/2 bg-ink" />
+                <span className="absolute left-1/2 top-1/2 h-[0.32em] w-[0.32em] -translate-x-1/2 -translate-y-1/2 rounded-full bg-leaf" />
+                <Dot color="berry" className="absolute -right-[0.2em] top-1/2 -translate-y-1/2" />
+              </span>
+            </span>
+
+            {/* Line 3: overlapping purple + sky circles with a glass key · word */}
+            <span aria-hidden="true" className="mt-2 flex flex-wrap items-center justify-center gap-x-[0.18em] gap-y-2">
+              <span className="relative inline-flex h-[1em] w-[1.75em] items-center">
+                <Blob gradient="linear-gradient(135deg,#8B5CF6,#FF6FA8 60%,#FF7A1A)" className="absolute left-0 h-[1em] w-[1em]" />
+                <Blob color="sky" className="absolute left-[0.72em] h-[1em] w-[1em] opacity-90" />
+                <PillToggle
+                  variant="glass"
+                  className="absolute left-[0.3em] h-[0.5em] w-[1.15em]"
+                  knob={
+                    <Knob className="h-[0.38em] w-[0.5em] !rounded-[0.14em]">
+                      <BookOpen className="h-[0.2em] w-[0.2em]" />
+                    </Knob>
+                  }
+                />
+              </span>
+              <span>{t("x.landing.heroLine3")}</span>
+            </span>
+          </h1>
+
+          <p className="mx-auto mt-10 max-w-xl text-center text-base text-ink/75 sm:text-lg">
+            {t("hero.subtitle")} <span aria-hidden="true">🙌</span>
+          </p>
+          <div className="mt-8 flex flex-col items-center gap-4">
+            <Button asChild size="lg">
+              <Link to="/auth?role=student">{t("hero.ctaStart")}</Link>
+            </Button>
+            <a href="#how" className="text-sm font-bold text-ink underline decoration-2 underline-offset-4 hover:text-berry">
+              {t("x.landing.seeHow")}
+            </a>
           </div>
 
-          {/* Mobile — compact metric row */}
-          <div className="mt-10 flex flex-wrap justify-center gap-3 sm:hidden">
-            {WIDGETS.slice(1, 4).map((w) => (
-              <WidgetCard key={w.caption} widget={w} />
+          {/* Metric widgets */}
+          <div className="mx-auto mt-14 grid max-w-4xl grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+            {WIDGETS.map((w, i) => (
+              <WidgetCard key={w.caption} widget={w} className={cn("animate-fade-up", w.rotate)} delay={i * 90} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* ---------------- Scroll invite ---------------- */}
-      <div className="relative z-10 hidden justify-center sm:flex">
-        <a
-          href="#how"
-          aria-label={t("hero.scrollInvite")}
-          className="-mt-9 mb-[-2.25rem] grid place-items-center rounded-full bg-white p-2 shadow-pop transition-transform hover:scale-105"
-        >
-          <RotatingScrollBadge label={t("hero.scrollInvite")} />
-        </a>
-      </div>
-
-      {/* ---------------- Как это работает ---------------- */}
-      <section id="how" className="scroll-mt-20 py-20 sm:py-28">
+      {/* ---------------- How it works ---------------- */}
+      <section id="how" className="scroll-mt-20 bg-snow py-20 sm:py-28">
         <div className="container-page">
-          <SectionHeading
-            eyebrow={t("steps.eyebrow")}
-            title={t("steps.title")}
-            subtitle={t("steps.subtitle")}
-          />
-          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {STEPS.map((step, i) => {
-              const isHighlight = i === STEPS.length - 1;
-              return (
-                <Card
-                  key={step.key}
-                  className={cn("p-6", isHighlight && "border-transparent bg-sky")}
-                >
-                  <div
-                    className={cn(
-                      "flex h-11 w-11 items-center justify-center rounded-2xl",
-                      isHighlight ? "bg-black/10 text-ink" : "bg-ink/[0.04] text-ink",
-                    )}
-                  >
-                    <step.icon className="h-5 w-5" aria-hidden="true" />
+          <SectionHeading eyebrow={t("steps.eyebrow")} title={t("steps.title")} subtitle={t("steps.subtitle")} />
+          <div className="relative mt-16">
+            <DashedRoute d="M 6 50 C 20 0, 32 100, 50 50 S 80 0, 94 50" className="inset-x-0 -top-10 hidden h-12 w-full lg:block" />
+            <div className="relative grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {STEPS.map((step, i) => (
+                <Card key={step.key} className="lift relative p-6 pt-7">
+                  <div className="flex items-center justify-between">
+                    <Blob color={step.color} className="h-14 w-14 text-ink shadow-knob">
+                      <step.icon className="h-6 w-6" />
+                    </Blob>
+                    <span className="font-display text-5xl font-extrabold text-ink/[0.08]">0{i + 1}</span>
                   </div>
-                  <p
-                    className={cn(
-                      "mt-5 text-xs font-medium uppercase tracking-[0.16em]",
-                      isHighlight ? "text-ink/60" : "text-muted",
-                    )}
-                  >
-                    {t("steps.stepLabel")} {i + 1}
-                  </p>
-                  <h3 className="mt-1.5 font-sans text-base font-semibold tracking-tight">
-                    {t(`steps.${step.key}.title`)}
-                  </h3>
-                  <p className={cn("mt-2 text-sm", isHighlight ? "text-ink/70" : "text-muted")}>
-                    {t(`steps.${step.key}.text`)}
-                  </p>
-                  {isHighlight && (
-                    <a
-                      href="#streak"
-                      className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-ink"
-                    >
+                  <h3 className="mt-5 text-lg">{t(`steps.${step.key}.title`)}</h3>
+                  <p className="mt-2 text-sm text-muted">{t(`steps.${step.key}.text`)}</p>
+                  {step.key === "streak" && (
+                    <a href="#streak" className="mt-4 inline-flex items-center gap-1 text-sm font-bold text-berry hover:underline">
                       {t("steps.readMore")}
-                      <ArrowUpRight className="h-3 w-3" aria-hidden="true" />
+                      <ArrowRight className="h-4 w-4" aria-hidden="true" />
                     </a>
                   )}
                 </Card>
-              );
-            })}
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ---------------- Предметы ---------------- */}
-      <section id="subjects" className="scroll-mt-20 bg-ink/[0.02] py-20 sm:py-28">
+      {/* ---------------- Subjects ---------------- */}
+      <section id="subjects" className="relative isolate scroll-mt-20 overflow-hidden py-20 sm:py-28">
+        <Sparkle color="grape" size={30} className="absolute left-[6%] top-24 hidden md:block" />
+        <Sparkle color="leaf" size={24} className="absolute right-[8%] top-40 hidden md:block" style={{ animationDelay: "1s" }} />
         <div className="container-page">
-          <SectionHeading
-            eyebrow={t("subjectsSection.eyebrow")}
-            title={t("subjectsSection.title")}
-            subtitle={t("subjectsSection.subtitle")}
-          />
+          <SectionHeading eyebrow={t("subjectsSection.eyebrow")} title={t("subjectsSection.title")} subtitle={t("subjectsSection.subtitle")} />
 
           <div className="mt-12 space-y-10">
             <div>
-              <h3 className="mb-4 text-xs font-bold uppercase tracking-[0.14em] text-muted">
-                {t("subjectGroups.exam")}
-              </h3>
+              <GroupLabel>{t("subjectGroups.exam")}</GroupLabel>
               <div className="grid gap-4 sm:grid-cols-2">
                 {SUBJECTS.filter((s) => SUBJECT_GROUPS.exam.includes(s.id)).map((subject) => (
                   <SubjectCard key={subject.id} subject={subject} t={t} />
@@ -234,135 +194,129 @@ export function LandingPage() {
               </div>
             </div>
             <div>
-              <h3 className="mb-4 text-xs font-bold uppercase tracking-[0.14em] text-muted">
-                {t("subjectGroups.language")}
-              </h3>
+              <GroupLabel>{t("subjectGroups.language")}</GroupLabel>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {SUBJECTS.filter((s) => SUBJECT_GROUPS.language.includes(s.id)).map((subject) => (
                   <SubjectCard key={subject.id} subject={subject} t={t} />
                 ))}
               </div>
-              <Card className="mt-4 flex flex-col gap-4 border-transparent bg-mint-soft p-6 shadow-none sm:flex-row sm:items-center sm:justify-between">
-                <p className="flex items-center gap-3 text-sm font-medium text-mint-ink">
-                  <Sparkles className="h-5 w-5 shrink-0" aria-hidden="true" />
+              <div className="mt-4 flex flex-col gap-4 rounded-card bg-leaf p-6 text-ink sm:flex-row sm:items-center sm:justify-between">
+                <p className="flex items-center gap-3 text-base font-bold">
+                  <Sparkles className="h-6 w-6 shrink-0" aria-hidden="true" />
                   {t("subjectsSection.addRemove")}
                 </p>
-                <Button asChild variant="outline" size="sm" className="shrink-0 self-start sm:self-auto">
+                <Button asChild size="md" className="shrink-0 self-start sm:self-auto">
                   <Link to="/auth?role=student">{t("subjectsSection.pickSet")}</Link>
                 </Button>
-              </Card>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ---------------- Почему работает streak ---------------- */}
-      <section id="streak" className="scroll-mt-20 py-20 sm:py-28">
-        <div className="container-page grid items-center gap-12 lg:grid-cols-2">
-          <div>
-            <Badge tone="butter" className="mb-4">
-              <Flame className="h-3.5 w-3.5" aria-hidden="true" />
-              {t("streakSection.badge")}
-            </Badge>
-            <h2 className="text-3xl sm:text-[2.5rem]">{t("streakSection.title")}</h2>
-            <p className="mt-4 text-muted">{t("x.landing.streakText")}</p>
-            <ul className="mt-6 space-y-3">
-              {list<string>("x.landing.streakBullets").map((item) => (
-                <li key={item} className="flex gap-3 text-sm text-ink/75">
-                  <span
-                    className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-ink/[0.05] text-ink/60"
-                    aria-hidden="true"
-                  >
-                    <Flame className="h-3 w-3" />
-                  </span>
-                  {item}
-                </li>
-              ))}
-            </ul>
+      {/* ---------------- Why streak works ---------------- */}
+      <section id="streak" className="scroll-mt-20 px-3 sm:px-5">
+        <div className="relative isolate mx-auto max-w-[1400px] overflow-hidden rounded-[40px] bg-butter-soft py-20 sm:py-24">
+          <Blob color="sun" className="absolute -right-16 -top-16 -z-10 h-56 w-56" />
+          <Blob color="bubble" className="absolute -bottom-20 -left-10 -z-10 h-48 w-48 opacity-80" />
+          <Sparkle color="berry" size={28} className="absolute left-[46%] top-10" />
+          <div className="container-page grid items-center gap-12 lg:grid-cols-2">
+            <div>
+              <Badge tone="neutral" className="mb-4 bg-white">
+                <Flame className="h-3.5 w-3.5 text-fire-500" aria-hidden="true" />
+                {t("streakSection.badge")}
+              </Badge>
+              <h2 className="text-4xl sm:text-5xl">{t("streakSection.title")}</h2>
+              <p className="mt-4 text-ink/75">{t("x.landing.streakText")}</p>
+              <ul className="mt-6 space-y-3">
+                {list<string>("x.landing.streakBullets").map((item, i) => (
+                  <li key={item} className="flex items-center gap-3 text-[15px] font-semibold text-ink">
+                    <Blob color={(["sun", "leaf", "sky"] as const)[i % 3]} className="h-8 w-8 text-ink shadow-knob">
+                      {i === 2 ? <Snowflake className="h-4 w-4" /> : <Flame className="h-4 w-4" />}
+                    </Blob>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <StreakShowcase />
           </div>
-          <StreakShowcase />
         </div>
       </section>
 
-      {/* ---------------- Для родителей ---------------- */}
-      <section id="parents" className="scroll-mt-20 bg-ink py-20 text-white sm:py-28">
-        <div className="container-page grid items-center gap-12 lg:grid-cols-2">
+      {/* ---------------- For parents ---------------- */}
+      <section id="parents" className="relative isolate scroll-mt-20 overflow-hidden bg-paper py-20 sm:py-28">
+        <Sparkle color="sun" size={30} className="absolute left-[6%] top-16" />
+        <Sparkle color="sky" size={22} className="absolute bottom-16 left-[40%]" style={{ animationDelay: "1.4s" }} />
+        <Blob gradient="linear-gradient(135deg,#3D5AFE,#8B5CF6)" className="absolute -right-24 top-10 -z-10 h-72 w-72 opacity-25 blur-3xl" />
+        <div className="container-page grid items-center gap-14 lg:grid-cols-2">
           <div>
-            <span className="inline-flex items-center rounded-pill bg-white/10 px-2.5 py-1 text-xs font-medium text-white/80">
+            <span className="inline-flex items-center rounded-pill bg-berry-soft px-3 py-1 text-xs font-bold text-berry-ink">
               {t("parentsSection.badge")}
             </span>
-            <h2 className="mt-4 text-3xl text-white sm:text-[2.5rem]">{t("parentsSection.title")}</h2>
-            <p className="mt-4 text-white/70">{t("x.landing.parentsText")}</p>
+            <h2 className="mt-4 text-4xl sm:text-5xl">{t("parentsSection.title")}</h2>
+            <p className="mt-4 text-ink/75">{t("x.landing.parentsText")}</p>
             <div className="mt-6 grid gap-3 sm:grid-cols-3">
               {[
-                { icon: BarChart3, label: t("parentsSection.progress") },
-                { icon: ShieldCheck, label: t("parentsSection.weakTopics") },
-                { icon: BookOpenCheck, label: t("parentsSection.activityFeed") },
+                { icon: BarChart3, label: t("parentsSection.progress"), color: "leaf" as const },
+                { icon: ShieldCheck, label: t("parentsSection.weakTopics"), color: "sun" as const },
+                { icon: BookOpenCheck, label: t("parentsSection.activityFeed"), color: "sky" as const },
               ].map((f) => (
-                <div key={f.label} className="rounded-widget bg-white/5 p-4">
-                  <f.icon className="h-5 w-5 text-white/70" aria-hidden="true" />
-                  <p className="mt-2 text-sm font-medium text-white">{f.label}</p>
+                <div key={f.label} className="lift rounded-widget bg-white p-4 shadow-card ring-1 ring-ink/[0.05]">
+                  <Blob color={f.color} className="h-9 w-9 text-ink">
+                    <f.icon className="h-4 w-4" />
+                  </Blob>
+                  <p className="mt-3 text-sm font-bold text-ink">{f.label}</p>
                 </div>
               ))}
             </div>
-            <Button asChild className="mt-6 bg-white text-ink hover:bg-white/90">
+            <Button asChild size="lg" className="mt-8">
               <Link to="/auth?role=parent">{t("parentsSection.cta")}</Link>
             </Button>
           </div>
+
           <div className="relative">
-            <div className="relative flex items-center justify-center overflow-hidden rounded-[2rem] bg-gradient-to-br from-blush-soft via-butter-soft to-mint-soft px-6 pb-16 pt-14 sm:px-10">
-              <div
-                aria-hidden="true"
-                className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/40 blur-2xl"
-              />
+            <div className="relative flex items-center justify-center overflow-hidden rounded-[2.25rem] bg-[linear-gradient(135deg,#E6EAFF,#FFE3EF_55%,#FFF3CC)] px-6 pb-16 pt-14 sm:px-10">
               <ParentMock />
             </div>
-
-            {/* Floating metric card, straddling the photo's corner */}
-            <div className="absolute -left-4 -top-4 z-10 flex items-center gap-3 rounded-widget border border-ink/[0.05] bg-white px-4 py-3 shadow-float sm:-left-6 sm:-top-6">
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-mint-soft text-mint-ink">
-                <TrendingUp className="h-4 w-4" aria-hidden="true" />
-              </span>
-              <div className="min-w-0">
-                <p className="text-sm font-semibold leading-none text-ink">
-                  +23% {t("parentsSection.metricLabel")}
-                </p>
-                <MiniSparkline className="mt-1.5 text-mint-ink" />
-              </div>
-            </div>
-
-            <Card className="relative z-10 -mt-8 mx-4 border-0 bg-white p-6 text-ink shadow-pop sm:mx-6 sm:p-8">
-              <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted">
-                {t("x.landing.notifLabel")}
+            <div className="absolute -left-3 -top-5 z-10 flex -rotate-3 items-center gap-3 rounded-widget bg-white px-4 py-3 text-ink shadow-float sm:-left-6">
+              <Blob color="leaf" className="h-9 w-9 text-ink">
+                <TrendingUp className="h-4 w-4" />
+              </Blob>
+              <p className="text-sm font-bold leading-tight">
+                +23%
+                <span className="block text-xs font-semibold text-muted">{t("parentsSection.metricLabel")}</span>
               </p>
-              <p className="mt-3 text-sm text-ink/75">{t("x.landing.notifText")}</p>
+            </div>
+            <Card className="relative z-10 mx-4 -mt-10 border-0 p-6 text-ink shadow-pop sm:mx-6 sm:p-7">
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-muted">{t("x.landing.notifLabel")}</p>
+              <p className="mt-3 text-sm text-ink/80">{t("x.landing.notifText")}</p>
               <div className="mt-4 h-px bg-ink/[0.08]" />
-              <p className="mt-4 text-sm text-ink/75">
-                <span className="font-semibold text-ink">{t("x.landing.attentionLabel")}</span>{" "}
-                {t("x.landing.attentionText")}
+              <p className="mt-4 text-sm text-ink/80">
+                <span className="font-bold text-ink">{t("x.landing.attentionLabel")}</span> {t("x.landing.attentionText")}
               </p>
             </Card>
           </div>
         </div>
       </section>
 
-      {/* ---------------- Отзывы ---------------- */}
+      {/* ---------------- Reviews ---------------- */}
       <section className="py-20 sm:py-28">
         <div className="container-page">
           <SectionHeading eyebrow={t("reviewsSection.eyebrow")} title={t("reviewsSection.title")} />
           <div className="mt-12 grid gap-4 md:grid-cols-3">
             {REVIEWS.map((r, i) => (
-              <Card key={r.id} className="flex flex-col p-6 sm:p-7">
-                <div className="flex gap-0.5 text-ink" aria-hidden="true">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} className="h-3.5 w-3.5 fill-current" />
+              <Card key={r.id} className={cn("lift flex flex-col p-6 sm:p-7", i === 1 && "md:-rotate-1", i === 2 && "md:rotate-1")}>
+                <div className="flex gap-0.5 text-sun" aria-hidden="true">
+                  {Array.from({ length: 5 }).map((_, k) => (
+                    <Star key={k} className="h-4 w-4 fill-current" />
                   ))}
                 </div>
-                <p className="mt-4 flex-1 text-sm text-ink/75">{reviewTexts[i]?.quote ?? r.quote}</p>
+                <p className="mt-4 flex-1 text-[15px] text-ink/80">{reviewTexts[i]?.quote ?? r.quote}</p>
                 <div className="mt-6 flex items-center gap-3">
-                  <Avatar name={r.author} color={r.avatarColor} size="sm" />
+                  <Avatar name={r.author} color={r.avatarColor} size="md" />
                   <div>
-                    <p className="text-sm font-medium text-ink">{r.author}</p>
+                    <p className="text-sm font-bold text-ink">{r.author}</p>
                     <p className="text-xs text-muted">{reviewTexts[i]?.role ?? r.role}</p>
                   </div>
                 </div>
@@ -372,72 +326,56 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* ---------------- Вопросы ---------------- */}
-      <section id="faq" className="scroll-mt-20 bg-ink/[0.02] py-20 sm:py-28">
+      {/* ---------------- FAQ ---------------- */}
+      <section id="faq" className="scroll-mt-20 bg-snow py-20 sm:py-28">
         <div className="container-page">
           <SectionHeading eyebrow={t("faqSection.eyebrow")} title={t("faqSection.title")} />
           <div className="mx-auto mt-10 max-w-2xl space-y-3">
             {faq.map((item, i) => (
-              <details
-                key={item.q}
-                open={i === 0}
-                className="group rounded-2xl border border-ink/[0.06] bg-white shadow-card"
-              >
+              <details key={item.q} open={i === 0} className="group rounded-[24px] bg-white shadow-card">
                 <summary className="flex cursor-pointer list-none items-center gap-4 p-5 marker:content-none sm:p-6">
-                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-ink/[0.05] font-display text-sm font-bold text-muted transition-colors group-open:bg-sky group-open:text-ink">
+                  <span
+                    className={cn(
+                      "grid h-10 w-10 shrink-0 place-items-center rounded-full font-display text-sm font-extrabold text-ink",
+                      FAQ_COLORS[i % FAQ_COLORS.length],
+                    )}
+                  >
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <span className="flex-1 font-sans text-sm font-semibold text-ink">
-                    {item.q}
-                  </span>
+                  <span className="flex-1 text-[15px] font-bold text-ink">{item.q}</span>
                   <span
-                    className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-ink/15 text-ink"
+                    className="grid h-9 w-9 shrink-0 place-items-center rounded-full border-2 border-ink text-ink transition-colors group-open:bg-ink group-open:text-white"
                     aria-hidden="true"
                   >
                     <Plus className="h-4 w-4 transition-transform duration-200 group-open:rotate-45" />
                   </span>
                 </summary>
-                <p className="px-5 pb-5 text-sm text-muted sm:px-6 sm:pb-6 sm:pl-[4.75rem]">
-                  {item.a}
-                </p>
+                <p className="px-5 pb-5 text-[15px] text-muted sm:px-6 sm:pb-6 sm:pl-[5rem]">{item.a}</p>
               </details>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ---------------- Финальный CTA ---------------- */}
-      <section className="pb-24">
+      {/* ---------------- Final CTA ---------------- */}
+      <section className="py-20 sm:py-24">
         <div className="container-page">
-          <Card className="overflow-hidden border-0 bg-ink p-10 text-center text-white sm:p-16">
-            <h2 className="mx-auto max-w-2xl text-3xl text-white sm:text-[2.75rem]">
-              {t("finalCta.title")}
-            </h2>
-            <p className="mx-auto mt-4 max-w-xl text-white/60">{t("finalCta.subtitle")}</p>
+          <div className="relative isolate overflow-hidden rounded-[40px] bg-[linear-gradient(120deg,#3D5AFE,#8B5CF6_60%,#FF6FA8)] px-6 py-14 text-center text-white sm:px-16 sm:py-20">
+            <Sparkle color="sun" size={40} className="absolute left-[8%] top-10" />
+            <Sparkle color="white" size={26} className="absolute right-[12%] top-14" style={{ animationDelay: "1s" }} />
+            <Sparkle color="leaf" size={30} className="absolute bottom-10 right-[22%]" style={{ animationDelay: "2s" }} />
+            <Blob color="sun" className="absolute -bottom-16 -left-12 -z-10 h-44 w-44 opacity-90" />
+            <h2 className="mx-auto max-w-2xl text-4xl text-white sm:text-[3.4rem] sm:leading-[1.05]">{t("finalCta.title")}</h2>
+            <p className="mx-auto mt-4 max-w-xl text-white/85">{t("finalCta.subtitle")}</p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-              <Button
-                asChild
-                size="lg"
-                className="group w-full bg-white text-ink hover:bg-white/90 sm:w-auto"
-              >
-                <Link to="/auth?role=student">
-                  {t("finalCta.ctaStudent")}
-                  <ArrowUpRight
-                    className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                    aria-hidden="true"
-                  />
-                </Link>
+              <Button asChild size="lg" className="bg-white text-ink hover:bg-white/90">
+                <Link to="/auth?role=student">{t("finalCta.ctaStudent")}</Link>
               </Button>
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="w-full border-white/25 bg-transparent text-white hover:border-white/40 hover:bg-white/10 sm:w-auto"
-              >
+              <Button asChild size="lg" variant="outline" className="border-white bg-transparent text-white hover:border-white hover:bg-white/10">
                 <Link to="/auth?role=parent">{t("finalCta.ctaParent")}</Link>
               </Button>
             </div>
-          </Card>
+          </div>
         </div>
       </section>
     </>
@@ -445,6 +383,10 @@ export function LandingPage() {
 }
 
 /* ------------------------------------------------------------------ */
+
+function GroupLabel({ children }: { children: React.ReactNode }) {
+  return <h3 className="mb-4 text-xs font-extrabold uppercase tracking-[0.16em] text-muted">{children}</h3>;
+}
 
 function SubjectCard({
   subject,
@@ -454,178 +396,60 @@ function SubjectCard({
   t: (key: string, params?: Record<string, string | number>) => string;
 }) {
   return (
-    <Card className="flex items-start gap-4 p-6">
+    <Card className="lift flex items-start gap-4 p-6">
       <SubjectIcon subjectId={subject.id} size="lg" />
       <div>
-        <h3 className="font-sans text-base font-semibold tracking-tight">
-          {t(`subjects.${subject.id}.name`)}
-        </h3>
+        <h3 className="text-lg">{t(`subjects.${subject.id}.name`)}</h3>
         <p className="mt-1 text-sm text-muted">{t(`subjects.${subject.id}.tagline`)}</p>
-        <p className="mt-2.5 text-xs font-medium text-muted">
-          {subject.topicsCount} {t("subjectsSection.topics")} · {subject.videoLessonsCount}+{" "}
-          {t("subjectsSection.videos")}
+        <p className="mt-3 flex flex-wrap gap-2 text-xs font-bold">
+          <span className={cn("rounded-pill px-2.5 py-1", subject.theme.soft, subject.theme.text)}>
+            {subject.topicsCount} {t("subjectsSection.topics")}
+          </span>
+          <span className="rounded-pill bg-ink/[0.06] px-2.5 py-1 text-ink/75">
+            {subject.videoLessonsCount}+ {t("subjectsSection.videos")}
+          </span>
         </p>
       </div>
     </Card>
   );
 }
 
-function SectionHeading({
-  eyebrow,
-  title,
-  subtitle,
-}: {
-  eyebrow: string;
-  title: string;
-  subtitle?: string;
-}) {
+function SectionHeading({ eyebrow, title, subtitle }: { eyebrow: string; title: string; subtitle?: string }) {
   return (
     <div className="mx-auto max-w-2xl text-center">
-      <p className="text-xs font-medium uppercase tracking-[0.22em] text-muted">
+      <p className="inline-flex items-center gap-2 rounded-pill bg-white px-3 py-1 text-xs font-extrabold uppercase tracking-[0.16em] text-berry shadow-card">
+        <Sparkle color="berry" size={12} twinkle={false} />
         {eyebrow}
       </p>
-      <h2 className="mt-3 text-3xl sm:text-[2.5rem]">{title}</h2>
-      {subtitle && <p className="mt-3 text-muted">{subtitle}</p>}
+      <h2 className="mt-4 text-4xl sm:text-5xl">{title}</h2>
+      {subtitle && <p className="mt-4 text-ink/70 sm:text-lg">{subtitle}</p>}
     </div>
   );
 }
-
-const WIDGET_BG: Record<string, string> = {
-  butter: "bg-butter-soft",
-  mint: "bg-mint-soft",
-  blush: "bg-blush-soft",
-  sky: "bg-sky-soft",
-  plain: "bg-white",
-};
-
-const WIDGET_ICON: Record<string, string> = {
-  butter: "text-butter-ink",
-  mint: "text-mint-ink",
-  blush: "text-blush-ink",
-  sky: "text-sky-ink",
-  plain: "text-ink/55",
-};
 
 function WidgetCard({
   widget,
   className,
+  delay = 0,
 }: {
   widget: { icon: IconType; tone: string; metric: string; caption: string };
   className?: string;
+  delay?: number;
 }) {
   const Icon = widget.icon;
   return (
     <div
-      className={cn(
-        "flex items-center gap-3 rounded-widget border border-ink/[0.05] px-4 py-3 shadow-float",
-        WIDGET_BG[widget.tone],
-        className,
-      )}
+      className={cn("lift flex items-center gap-3 rounded-widget bg-white px-4 py-3.5 shadow-card ring-1 ring-ink/[0.05]", className)}
+      style={{ animationDelay: `${delay}ms` }}
     >
-      <span
-        className={cn(
-          "grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/70",
-          WIDGET_ICON[widget.tone],
-        )}
-      >
-        <Icon className="h-4 w-4" />
+      <span className={cn("grid h-11 w-11 shrink-0 place-items-center rounded-full", widget.tone)}>
+        <Icon className="h-5 w-5" />
       </span>
       <div className="min-w-0 text-left">
-        <p className="text-lg font-semibold leading-none text-ink">{widget.metric}</p>
-        <p className="mt-1 text-xs leading-tight text-ink/55">{widget.caption}</p>
+        <p className="font-display text-xl font-extrabold leading-none text-ink">{widget.metric}</p>
+        <p className="mt-1 text-xs font-semibold leading-tight text-muted">{widget.caption}</p>
       </div>
     </div>
-  );
-}
-
-function PhoneMockup() {
-  const { t } = useLocale();
-  return (
-    <div className="relative mx-auto w-[240px] sm:w-[264px]">
-      <div className="rounded-[2.4rem] border-[10px] border-ink bg-ink shadow-pop">
-        <div className="overflow-hidden rounded-[1.7rem] bg-white pb-1">
-          <div className="flex items-center justify-between px-4 pt-4">
-            <div className="flex items-center gap-2">
-              <Avatar name={t("x.landing.phoneName")} size="sm" color="#0B0B0C" />
-              <div className="text-left">
-                <p className="text-[11px] font-medium text-ink">{t("x.landing.phoneName")}</p>
-                <p className="text-[10px] text-ink/55">{t("x.landing.phoneGrade")}</p>
-              </div>
-            </div>
-            <span className="inline-flex items-center gap-1 rounded-pill bg-fire-50 px-2 py-0.5 text-[10px] font-semibold text-fire-600">
-              <Flame className="h-3 w-3" aria-hidden="true" />
-              {t("x.landing.phoneLive")}
-            </span>
-          </div>
-
-          <div className="mx-4 mt-3 flex aspect-[4/3] items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-blush-soft via-butter-soft to-mint-soft">
-            <span className="grid h-12 w-12 place-items-center rounded-full bg-ink text-white shadow-float">
-              <Play className="h-5 w-5 translate-x-[1px]" aria-hidden="true" />
-            </span>
-          </div>
-          <p className="mx-4 mt-2 text-left text-[11px] font-medium text-ink">
-            {t("x.landing.phoneLesson")}
-          </p>
-          <div className="mx-4 mt-1.5 h-1 overflow-hidden rounded-pill bg-ink/10">
-            <div className="h-full w-2/3 rounded-pill bg-ink" />
-          </div>
-
-          <div className="mt-3 flex items-center justify-between border-t border-ink/[0.06] px-4 py-3">
-            <div className="flex items-center gap-2">
-              <span className="grid h-8 w-8 place-items-center rounded-full bg-butter-soft">
-                <Flame
-                  className="h-4 w-4 animate-flame text-butter-ink"
-                  aria-hidden="true"
-                />
-              </span>
-              <div className="text-left">
-                <p className="text-[10px] text-ink/55">{t("x.landing.phoneStreak")}</p>
-                <p className="text-sm font-semibold text-ink">{t("x.landing.streakCount")}</p>
-              </div>
-            </div>
-            <span className="text-[10px] font-medium text-mint-ink">{t("x.landing.phoneXp")}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function RotatingScrollBadge({ label }: { label: string }) {
-  const repeated = `${label} • ${label} • `;
-  return (
-    <span className="relative grid h-16 w-16 place-items-center sm:h-20 sm:w-20">
-      <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full animate-spin-slow">
-        <defs>
-          <path
-            id="scrollBadgePath"
-            d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"
-            fill="none"
-          />
-        </defs>
-        <text className="fill-ink/70 text-[7.2px] font-semibold uppercase tracking-[0.1em]">
-          <textPath href="#scrollBadgePath">{repeated}</textPath>
-        </text>
-      </svg>
-      <span className="grid h-9 w-9 place-items-center rounded-full bg-ink text-white sm:h-10 sm:w-10">
-        <ArrowDown className="h-4 w-4" aria-hidden="true" />
-      </span>
-    </span>
-  );
-}
-
-function MiniSparkline({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 60 20" className={cn("h-4 w-14", className)} aria-hidden="true">
-      <polyline
-        points="0,16 10,14 20,15 28,9 38,10 48,4 60,2"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
   );
 }
 
@@ -636,35 +460,41 @@ function StreakShowcase() {
   const state: ("done" | "frozen" | "today")[] = ["done", "done", "done", "frozen", "done", "done", "today"];
   const label = { done: t("x.landing.dayDone"), frozen: t("x.landing.dayFrozen"), today: t("x.landing.dayToday") };
   return (
-    <Card className="p-6 sm:p-8">
+    <Card className="relative border-0 p-6 shadow-pop sm:p-8">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm text-muted">{t("x.landing.showcaseCurrent")}</p>
-          <p className="mt-1 font-display text-4xl font-semibold text-ink">{t("x.landing.streakCount")}</p>
+          <p className="text-sm font-semibold text-muted">{t("x.landing.showcaseCurrent")}</p>
+          <p className="mt-1 font-display text-5xl font-extrabold text-ink">{t("x.landing.streakCount")}</p>
         </div>
-        <span className="grid h-14 w-14 place-items-center rounded-full bg-butter-soft">
-          <Flame className="h-7 w-7 animate-flame text-butter-ink" aria-hidden="true" />
-        </span>
+        <Blob gradient="linear-gradient(135deg,#FFC530,#FF7A1A)" className="h-16 w-16 shadow-knob">
+          <Flame className="h-8 w-8 animate-flame text-white" fill="currentColor" />
+        </Blob>
       </div>
-      <div className="mt-6 grid grid-cols-7 gap-2">
+      <div className="mt-7 grid grid-cols-7 gap-2">
         {days.map((d, i) => (
           <div key={d} className="text-center">
             <div
               className={cn(
-                "grid h-9 w-full place-items-center rounded-xl text-xs font-semibold",
-                state[i] === "done" && "bg-ink text-white",
+                "grid aspect-square w-full place-items-center rounded-full text-xs font-bold",
+                state[i] === "done" && "bg-fire-500 text-white",
                 state[i] === "frozen" && "bg-sky text-sky-ink",
-                state[i] === "today" && "border-2 border-dashed border-ink/30 text-ink/50",
+                state[i] === "today" && "border-[3px] border-dashed border-ink/25 text-ink/50",
               )}
               aria-label={`${d}: ${label[state[i]]}`}
             >
-              {state[i] === "done" ? "✓" : state[i] === "frozen" ? <Snowflake className="h-4 w-4" aria-hidden="true" /> : "·"}
+              {state[i] === "done" ? (
+                <Flame className="h-4 w-4" fill="currentColor" aria-hidden="true" />
+              ) : state[i] === "frozen" ? (
+                <Snowflake className="h-4 w-4" aria-hidden="true" />
+              ) : (
+                "?"
+              )}
             </div>
-            <p className="mt-1 text-[11px] text-muted">{d}</p>
+            <p className="mt-1.5 text-[11px] font-bold text-muted">{d}</p>
           </div>
         ))}
       </div>
-      <p className="mt-4 text-xs text-muted">{t("x.landing.showcaseNote")}</p>
+      <p className="mt-5 rounded-2xl bg-snow px-4 py-3 text-xs font-semibold text-ink/70">{t("x.landing.showcaseNote")}</p>
     </Card>
   );
 }
@@ -673,31 +503,31 @@ function StreakShowcase() {
 function ParentMock() {
   const { t } = useLocale();
   const rows = [
-    { id: "math" as const, pct: 50, bar: "bg-violet-600" },
-    { id: "english" as const, pct: 67, bar: "bg-blue-600" },
-    { id: "science" as const, pct: 75, bar: "bg-teal-600" },
+    { id: "math" as const, pct: 50, bar: "bg-grape" },
+    { id: "english" as const, pct: 67, bar: "bg-berry" },
+    { id: "science" as const, pct: 75, bar: "bg-butter" },
   ];
   return (
-    <div className="w-full max-w-sm rounded-2xl bg-white p-5 text-ink shadow-float" aria-hidden="true">
+    <div className="w-full max-w-sm rounded-[24px] bg-white p-5 text-ink shadow-float" aria-hidden="true">
       <div className="flex items-center gap-3">
-        <Avatar name={t("x.landing.phoneName")} size="sm" color="#6C4CF1" />
+        <Avatar name={t("x.landing.phoneName")} size="md" color="#3D5AFE" />
         <div className="min-w-0 flex-1">
-          <p className="text-sm font-semibold">{t("x.landing.mockChild")}</p>
+          <p className="text-sm font-bold">{t("x.landing.mockChild")}</p>
           <p className="text-xs text-muted">{t("x.landing.mockToday")}</p>
         </div>
-        <span className="inline-flex items-center gap-1 rounded-pill bg-butter-soft px-2 py-1 text-xs font-bold text-butter-ink">
-          <Flame className="h-3.5 w-3.5" aria-hidden="true" />
+        <span className="inline-flex items-center gap-1 rounded-pill bg-fire-500 px-2.5 py-1 text-xs font-extrabold text-white">
+          <Flame className="h-3.5 w-3.5" fill="currentColor" aria-hidden="true" />
           15
         </span>
       </div>
-      <ul className="mt-4 space-y-3">
+      <ul className="mt-5 space-y-3.5">
         {rows.map((r) => (
           <li key={r.id}>
             <div className="flex items-center justify-between text-xs">
-              <span className="font-medium">{t(`subjects.${r.id}.name`)}</span>
-              <span className="font-semibold text-ink/70">{r.pct}%</span>
+              <span className="font-bold">{t(`subjects.${r.id}.name`)}</span>
+              <span className="font-bold text-ink/70">{r.pct}%</span>
             </div>
-            <div className="mt-1 h-1.5 overflow-hidden rounded-pill bg-ink/[0.06]">
+            <div className="mt-1.5 h-2.5 overflow-hidden rounded-pill bg-ink/[0.06]">
               <div className={cn("h-full rounded-pill", r.bar)} style={{ width: `${r.pct}%` }} />
             </div>
           </li>
@@ -705,5 +535,4 @@ function ParentMock() {
       </ul>
     </div>
   );
-
 }

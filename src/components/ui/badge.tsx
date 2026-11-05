@@ -2,11 +2,13 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const badgeVariants = cva(
-  "inline-flex items-center gap-1.5 rounded-pill px-2.5 py-1 text-xs font-medium",
+  "inline-flex items-center gap-1.5 rounded-pill px-2.5 py-1 text-xs font-bold",
   {
     variants: {
       tone: {
-        neutral: "bg-ink/[0.05] text-ink/70",
+        neutral: "bg-ink/[0.06] text-ink/75",
+        berry: "bg-berry-soft text-berry-ink",
+        grape: "bg-grape-soft text-grape-ink",
         // Pastel accents
         butter: "bg-butter-soft text-butter-ink",
         mint: "bg-mint-soft text-mint-ink",

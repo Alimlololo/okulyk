@@ -9,9 +9,9 @@ interface SubjectIconProps {
 }
 
 const sizes = {
-  sm: "h-8 w-8 text-base rounded-lg",
-  md: "h-11 w-11 text-xl rounded-xl",
-  lg: "h-14 w-14 text-2xl rounded-2xl",
+  sm: "h-9 w-9 text-base",
+  md: "h-12 w-12 text-xl",
+  lg: "h-16 w-16 text-[1.7rem]",
 } as const;
 
 export function SubjectIcon({ subjectId, size = "md", className }: SubjectIconProps) {
@@ -19,7 +19,7 @@ export function SubjectIcon({ subjectId, size = "md", className }: SubjectIconPr
   return (
     <span
       className={cn(
-        "grid shrink-0 place-items-center ring-1",
+        "grid shrink-0 place-items-center rounded-full ring-2",
         subject.theme.soft,
         subject.theme.ring,
         sizes[size],

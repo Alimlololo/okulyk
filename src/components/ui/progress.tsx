@@ -11,12 +11,12 @@ interface ProgressProps {
   label?: string;
 }
 
-const heights = { sm: "h-1.5", md: "h-2.5", lg: "h-3.5" } as const;
+const heights = { sm: "h-2", md: "h-3", lg: "h-4" } as const;
 
 export function Progress({
   value,
   className,
-  indicatorClassName = "bg-ink",
+  indicatorClassName = "bg-[linear-gradient(90deg,#3D5AFE,#8B5CF6)]",
   size = "md",
   label,
 }: ProgressProps) {

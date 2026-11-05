@@ -27,7 +27,7 @@ export function Tabs<T extends string>({
       aria-orientation="horizontal"
       className={cn(
         "flex gap-1 overflow-x-auto",
-        variant === "pill" && "rounded-xl bg-ink/[0.06] p-1",
+        variant === "pill" && "rounded-full bg-snow p-1 ring-1 ring-ink/[0.06]",
         variant === "underline" && "border-b border-ink/10",
         className,
       )}
@@ -42,10 +42,10 @@ export function Tabs<T extends string>({
             aria-selected={active}
             onClick={() => onValueChange(item.value)}
             className={cn(
-              "whitespace-nowrap px-4 py-2 text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/60 focus-visible:ring-offset-2",
-              variant === "pill" && "rounded-lg",
+              "whitespace-nowrap px-4 py-2 text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-berry/60 focus-visible:ring-offset-2",
+              variant === "pill" && "rounded-full",
               variant === "pill" && active
-                ? "bg-white text-ink shadow-sm"
+                ? "bg-ink text-white shadow-[0_8px_18px_-10px_rgba(22,22,29,.8)]"
                 : variant === "pill"
                   ? "text-muted hover:text-ink"
                   : "",

@@ -4,6 +4,7 @@ import { ArrowLeft, GraduationCap, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Logo } from "@/components/shared/Logo";
+import { ConfettiBackdrop } from "@/components/shared/Decor";
 import { LanguageSwitcher } from "@/components/shared/LanguageSwitcher";
 import { useAppStore, type AuthError } from "@/store/AppStore";
 import { AMINA, DINARA } from "@/data/users";
@@ -77,10 +78,7 @@ export function AuthPage() {
 
   return (
     <div className="relative isolate min-h-dvh overflow-hidden bg-paper">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-[-10rem] -z-10 h-[28rem] w-[42rem] max-w-[120vw] -translate-x-1/2 rounded-full bg-gradient-to-br from-butter/35 via-blush/30 to-mint/35 blur-[110px]"
-      />
+      <ConfettiBackdrop />
       <div className="container-page flex min-h-dvh flex-col py-6">
         <div className="flex items-center justify-between gap-3">
           <Link to="/" className="rounded-lg" aria-label={t("x.nav.home")}>
@@ -247,14 +245,14 @@ function RoleOption({
       aria-checked={active}
       onClick={onClick}
       className={cn(
-        "flex flex-col items-start gap-1 rounded-2xl border-2 p-4 text-left transition-colors",
-        active ? "border-ink bg-ink/[0.04]" : "border-ink/10 bg-white hover:border-ink/25",
+        "flex flex-col items-start gap-1 rounded-[22px] border-2 p-4 text-left transition-colors",
+        active ? "border-berry bg-berry-soft" : "border-ink/10 bg-white hover:border-ink/25",
       )}
     >
       <span
         className={cn(
           "grid h-10 w-10 place-items-center rounded-xl",
-          active ? "bg-ink text-white" : "bg-ink/[0.05] text-ink/60",
+          active ? "bg-berry text-white" : "bg-ink/[0.05] text-ink/60",
         )}
       >
         {icon}

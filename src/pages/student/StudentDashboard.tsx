@@ -199,7 +199,7 @@ export function StudentDashboard() {
       {/* ---- Metric cards ---- */}
       <div className="grid gap-4 sm:grid-cols-3">
         <MetricCard
-          tone="sky"
+          tone="sun"
           label={t("studentDashboard.streakLabel")}
           icon={<Flame className="h-4 w-4" aria-hidden="true" />}
           value={`${student.streak.current} ${pluralDays(student.streak.current, locale)}`}
@@ -211,7 +211,7 @@ export function StudentDashboard() {
           chartLabel={t("x.dash.perDay")}
         />
         <MetricCard
-          tone="blush"
+          tone="berry"
           label={t("studentDashboard.metricTasksWeek")}
           icon={<ListChecks className="h-4 w-4" aria-hidden="true" />}
           value={String(tasksWeek.total)}
@@ -221,7 +221,7 @@ export function StudentDashboard() {
           chartLabel={t("x.dash.perDay")}
         />
         <MetricCard
-          tone="mint"
+          tone="leaf"
           label={t("studentDashboard.xpWeek")}
           icon={<Sparkles className="h-4 w-4" aria-hidden="true" />}
           value={String(xpTotal)}

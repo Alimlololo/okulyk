@@ -76,7 +76,7 @@ export function ParentSettingsPage() {
                         }}
                         className={cn(
                           "rounded-xl border-2 px-2 py-2.5 text-center transition-colors",
-                          active ? "border-ink bg-ink/[0.04]" : "border-ink/10 bg-white hover:border-ink/25",
+                          active ? "border-berry bg-berry-soft" : "border-ink/10 bg-white hover:border-ink/25",
                         )}
                       >
                         <span className="block text-sm font-bold text-ink">{t(LOAD_LABEL_KEY[candidate])}</span>

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Logo } from "@/components/shared/Logo";
+import { ConfettiBackdrop } from "@/components/shared/Decor";
 import { SubjectIcon } from "@/components/shared/SubjectIcon";
 import { diagnosticQuestionsFor } from "@/data/diagnostic";
 import { cn } from "@/lib/utils";
@@ -65,11 +66,8 @@ function SubjectQuiz({ subjectId }: { subjectId: SubjectId }) {
 
   return (
     <div className="relative isolate min-h-dvh overflow-hidden bg-paper">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-[-10rem] -z-10 h-[28rem] w-[42rem] max-w-[120vw] -translate-x-1/2 rounded-full bg-gradient-to-br from-sky/35 via-blush/30 to-mint/35 blur-[110px]"
-      />
-      <div className="container-page flex min-h-dvh max-w-2xl flex-col py-6">
+      <ConfettiBackdrop />
+      <div className="mx-auto flex min-h-dvh w-full max-w-2xl flex-col px-4 sm:px-6 py-6">
         <div className="flex items-center justify-between">
           <Logo />
           <Button variant="ghost" size="sm" onClick={() => navigate("/student")}>
@@ -123,16 +121,16 @@ function SubjectQuiz({ subjectId }: { subjectId: SubjectId }) {
                           aria-checked={isPicked}
                           onClick={() => answerDiagnosticQuestion(student.id, question.id, opt.id)}
                           className={cn(
-                            "flex w-full items-center gap-3 rounded-xl border-2 px-4 py-3 text-left text-sm font-semibold transition-colors",
+                            "flex w-full items-center gap-3 rounded-[18px] border-2 px-4 py-3.5 text-left text-sm font-semibold transition-colors",
                             isPicked
-                              ? "border-ink bg-ink/[0.04] text-ink"
+                              ? "border-berry bg-berry-soft text-ink"
                               : "border-ink/10 bg-white hover:border-ink/25",
                           )}
                         >
                           <span
                             className={cn(
                               "grid h-5 w-5 shrink-0 place-items-center rounded-full border-2",
-                              isPicked ? "border-ink bg-ink text-white" : "border-ink/20",
+                              isPicked ? "border-berry bg-berry text-white" : "border-ink/20",
                             )}
                             aria-hidden="true"
                           >
@@ -186,11 +184,8 @@ function DiagnosticResultScreen() {
 
   return (
     <div className="relative isolate min-h-dvh overflow-hidden bg-paper">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-[-10rem] -z-10 h-[28rem] w-[42rem] max-w-[120vw] -translate-x-1/2 rounded-full bg-gradient-to-br from-mint/35 via-sky/30 to-blush/35 blur-[110px]"
-      />
-      <div className="container-page flex min-h-dvh max-w-2xl flex-col items-center justify-center py-10 text-center">
+      <ConfettiBackdrop />
+      <div className="mx-auto flex min-h-dvh w-full max-w-2xl flex-col px-4 sm:px-6 items-center justify-center py-10 text-center">
         <div className="animate-fade-up">
           <div className="mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-mint-soft text-3xl" aria-hidden="true">
             🎉
