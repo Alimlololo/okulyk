@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+  }
+
+  /* Visible, consistent keyboard focus everywhere */
+  :focus-visible {
+    @apply outline-none ring-2 ring-ink/60 ring-offset-2 ring-offset-white rounded-[8px];
+  }
+
+  /* Bold geometric headings — weighty, confident, tight tracking */
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display font-bold text-ink;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+}
+
+@layer components {
+  /* Parent area opts into a calmer, grotesque typeface */
+  .theme-parent {
+    @apply font-parent;
+  }
+  .theme-parent h1,
+  .theme-parent h2,
+  .theme-parent h3,
+  .theme-parent h4 {
+    @apply font-sans font-semibold;
+    letter-spacing: normal;
+  }
+}
+
+@layer utilities {
+  .container-page {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
